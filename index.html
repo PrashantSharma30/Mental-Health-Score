@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Signal · Mental Health Estimator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- LEFT: context panel -->
+    <aside class="intro">
+      <div class="intro__inner">
+        <p class="eyebrow">Student wellbeing model</p>
+        <h1 class="intro__title">Signal</h1>
+        <p class="intro__lede">
+          A quiet read on how your screen habits, sleep, and routine line up
+          with your mental health — based on a model trained on student
+          social‑media behaviour.
+        </p>
+
+        <div class="legend" aria-hidden="true">
+          <p class="legend__title">Reading the signal</p>
+          <ul class="legend__list">
+            <li><span class="dot dot--low"></span> 0–3 · Strained</li>
+            <li><span class="dot dot--mid"></span> 4–5 · Uneven</li>
+            <li><span class="dot dot--good"></span> 6–7 · Steady</li>
+            <li><span class="dot dot--high"></span> 8–10 · Thriving</li>
+          </ul>
+        </div>
+
+        <p class="intro__note">
+          This is an estimate from a machine‑learning model, not a clinical
+          assessment. If you're struggling, please talk to someone you trust
+          or a professional.
+        </p>
+      </div>
+    </aside>
+
+    <!-- RIGHT: form + result -->
+    <main class="panel">
+
+      <form id="predict-form" class="form" novalidate>
+
+        <section class="fieldset">
+          <h2 class="fieldset__title">About you</h2>
+
+          <div class="grid grid--3">
+            <label class="field">
+              <span class="field__label">Age</span>
+              <input type="number" id="age" name="age" min="0" max="120" value="20" required />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Gender</span>
+              <select id="gender" name="gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Academic level</span>
+              <select id="academic_level" name="academic_level" required>
+                <option value="High School">High School</option>
+                <option value="Undergraduate" selected>Undergraduate</option>
+                <option value="Graduate">Graduate</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid grid--2">
+            <label class="field">
+              <span class="field__label">Country</span>
+              <select id="country" name="country" required>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="UK">UK</option>
+                <option value="Germany">Germany</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Turkey">Turkey</option>
+                <option value="France">France</option>
+                <option value="__other__">Other…</option>
+              </select>
+            </label>
+
+            <label class="field field--hidden" id="country-other-wrap">
+              <span class="field__label">Specify country</span>
+              <input type="text" id="country_other" placeholder="e.g. Brazil" />
+            </label>
+          </div>
+        </section>
+
+        <section class="fieldset">
+          <h2 class="fieldset__title">Digital habits</h2>
+
+          <div class="grid grid--2">
+            <label class="field">
+              <span class="field__label">Most used platform</span>
+              <select id="most_used_platform" name="most_used_platform" required>
+                <option>Instagram</option>
+                <option>TikTok</option>
+                <option>Facebook</option>
+                <option>LinkedIn</option>
+                <option>YouTube</option>
+                <option>Twitter</option>
+                <option>Snapchat</option>
+                <option>WhatsApp</option>
+                <option>LINE</option>
+                <option>VKontakte</option>
+                <option>KakaoTalk</option>
+                <option>WeChat</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Main purpose of use</span>
+              <select id="purpose_of_use" name="purpose_of_use" required>
+                <option>Networking</option>
+                <option>Entertainment</option>
+                <option>Education</option>
+                <option>News</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field field--slider">
+            <span class="field__label">
+              Average daily usage
+              <span class="field__value"><output id="usage-out">3.0</output> hrs</span>
+            </span>
+            <input type="range" id="Avg_Daily_Usage_Hours" min="0" max="24" step="0.5" value="3" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Daily phone unlocks</span>
+            <input type="number" id="Daily_Unlocks" min="0" max="500" value="60" required />
+          </label>
+        </section>
+
+        <section class="fieldset">
+          <h2 class="fieldset__title">Daily rhythm</h2>
+
+          <label class="field field--slider">
+            <span class="field__label">
+              Study hours
+              <span class="field__value"><output id="study-out">3.0</output> hrs</span>
+            </span>
+            <input type="range" id="Study_Hours" min="0" max="24" step="0.5" value="3" />
+          </label>
+
+          <label class="field field--slider">
+            <span class="field__label">
+              Physical activity
+              <span class="field__value"><output id="activity-out">1.0</output> hrs</span>
+            </span>
+            <input type="range" id="Physical_Activity_Hours" min="0" max="24" step="0.5" value="1" />
+          </label>
+
+          <label class="field field--slider">
+            <span class="field__label">
+              Sleep per night
+              <span class="field__value"><output id="sleep-out">7.0</output> hrs</span>
+            </span>
+            <input type="range" id="Sleep_Hours_Per_Night" min="0" max="24" step="0.5" value="7" />
+          </label>
+        </section>
+
+        <section class="fieldset">
+          <h2 class="fieldset__title">Stress level</h2>
+          <div class="segmented" id="stress-group" role="radiogroup" aria-label="Stress level">
+            <button type="button" class="segmented__btn" data-value="Low">Low</button>
+            <button type="button" class="segmented__btn" data-value="Medium">Medium</button>
+            <button type="button" class="segmented__btn is-active" data-value="High">High</button>
+            <button type="button" class="segmented__btn" data-value="Very High">Very High</button>
+          </div>
+        </section>
+
+        <div class="form__actions">
+          <button type="submit" class="btn btn--primary" id="submit-btn">
+            <span class="btn__label">Reveal my signal</span>
+          </button>
+          <p class="form__error" id="form-error" role="alert" hidden></p>
+        </div>
+      </form>
+
+      <!-- RESULT -->
+      <section class="result" id="result" hidden aria-live="polite">
+        <div class="result__gauge">
+          <svg viewBox="0 0 200 120" class="gauge" aria-hidden="true">
+            <path class="gauge__track" d="M 20 110 A 80 80 0 0 1 180 110" />
+            <path class="gauge__fill" id="gauge-fill" d="M 20 110 A 80 80 0 0 1 180 110" />
+            <circle class="gauge__needle-base" cx="100" cy="110" r="5" />
+            <line id="gauge-needle" class="gauge__needle" x1="100" y1="110" x2="100" y2="40" />
+          </svg>
+          <div class="result__score">
+            <span id="score-value">0.0</span>
+            <span class="result__scale">/ 10</span>
+          </div>
+        </div>
+        <p class="result__band" id="result-band">—</p>
+        <p class="result__copy" id="result-copy"></p>
+        <button type="button" class="btn btn--ghost" id="reset-btn">Run it again</button>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
